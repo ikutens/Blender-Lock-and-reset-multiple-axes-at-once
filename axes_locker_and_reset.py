@@ -1,10 +1,10 @@
 bl_info = {
     "name": "Axis Lock and Reset",
     "author": "Arnold",
-    "version": (0,8),
+    "version": (1,0),
     "blender": (3, 2, 0),
     "location": "View3D > Tool",
-    "description": "Locks and clears rotation on a singular axis",
+    "description": "Locks and clears the rotation and location of multiple bones on a singular axis",
     "warning": "",
     "wiki_url": "",
     "category": "Animation",
@@ -61,6 +61,40 @@ class PosZ(bpy.types.Operator):
             
         return {'FINISHED'}
         
+        
+class ResetXPos(bpy.types.Operator):
+    """Tooltip"""
+    bl_label = "ResetXPos"
+    bl_idname = "object.resetpos_x"
+    
+    def execute (self,context):
+        for b in bpy.context.selected_pose_bones:
+            b.location[0] = 0.0
+        return {'FINISHED'}
+    
+class ResetYPos(bpy.types.Operator):
+    """Tooltip"""
+    bl_label = "ResetYPos"
+    bl_idname = "object.resetpos_y"
+    
+    def execute (self,context):
+        for b in bpy.context.selected_pose_bones:
+            b.location[1] = 0.0
+        return {'FINISHED'}
+
+
+
+
+class ResetZPos(bpy.types.Operator):
+    """Tooltip"""
+    bl_label = "ResetZPos"
+    bl_idname = "object.resetpos_z"
+    
+    def execute (self,context):
+        for b in bpy.context.selected_pose_bones:
+            b.location[2] = 0.0
+        return {'FINISHED'}
+
 class ResetX(bpy.types.Operator):
     """Tooltip"""
     bl_label = "ResetX"
@@ -185,9 +219,19 @@ class Test(bpy.types.Panel):
         row.operator("object.reset_y", text = "Clear Y Rotation")
         row = layout.row()
         row.operator("object.reset_z", text = "Clear Z Rotation")
+        row = layout.row()
+        
+        row = layout.row()
+        row.label(text="Location Clearing", icon='DRIVER_ROTATIONAL_DIFFERENCE')
+        row = layout.row()
+        row.operator("object.resetpos_x", text = "Clear X Location")
+        row = layout.row()
+        row.operator("object.resetpos_y", text = "Clear Y Location")
+        row = layout.row()
+        row.operator("object.resetpos_z", text = "Clear Z Location")
         
 
-classes = [Test,ExecX,ExecY,ExecZ,ResetX,ResetY,ResetZ,PosX,PosY,PosZ]
+classes = [Test,ExecX,ExecY,ExecZ,ResetX,ResetY,ResetZ,PosX,PosY,PosZ,ResetXPos,ResetYPos,ResetZPos]
 
        
 def register():
